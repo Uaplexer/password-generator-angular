@@ -6,7 +6,7 @@ export class PremiumFeatureError extends Error {
 }
 
 export class GenericApiError extends Error {
-  constructor(message: string = 'Unexpected error happened') {
+  constructor(message = 'Unexpected error happened') {
     super(message);
     this.name = 'GenericApiError';
   }
