@@ -1,0 +1,21 @@
+<div class="error-header">
+  <div class="error-icon">
+    <span class="icon-symbol">⚠️</span>
+  </div>
+  <h2 class="error-title">Oops! Something went wrong</h2>
+</div>
+
+<div class="error-content">
+  <p class="error-message">{{ errorData.errorText }}</p>
+</div>
+
+<div class="error-actions">
+  <button (click)="close()" type="button" class="btn-primary">
+    <span class="btn-icon">✓</span>
+    Got It
+  </button>
+</div>
+
+<button (click)="close()" type="button" class="close-btn" title="Close dialog">
+  <span class="close-icon">✕</span>
+</button>
