@@ -1,6 +1,5 @@
 import { DestroyRef, inject, Injectable, signal } from '@angular/core';
 import { finalize } from 'rxjs';
-import { PremiumFeatureError } from '@core/services/ninjas/ninjas-api.errors';
 import { RandomPasswordQueryParams } from '@core/services/ninjas/ninjas-api.model';
 import { NinjasApiService } from '@core/services/ninjas/ninjas-api.service';
 import { DialogService } from '@core/services/dialog/dialog.service';
@@ -20,8 +19,6 @@ export class PasswordGeneratorStore {
 
   isLoading = signal(false);
   isCopied = signal(false);
-
-  error = signal<string | null>(null);
 
   get #passwordOptions(): RandomPasswordQueryParams {
     return {
@@ -45,10 +42,7 @@ export class PasswordGeneratorStore {
           this.isCopied.set(false);
         },
         error: (error) => {
-          this.error.set(error.message);
-          if (error instanceof PremiumFeatureError) {
-            this.#dialogService.openErrorDialog(error.message);
-          }
+          this.#dialogService.openErrorDialog(error.message);
         },
       });
   }
