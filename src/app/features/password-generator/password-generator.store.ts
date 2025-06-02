@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { DestroyRef, inject, Injectable, signal } from '@angular/core';
 import { finalize } from 'rxjs';
 import { PremiumFeatureError } from '@core/services/ninjas/ninjas-api.errors';
 import { RandomPasswordQueryParams } from '@core/services/ninjas/ninjas-api.model';
@@ -10,6 +10,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class PasswordGeneratorStore {
   readonly #apiService = inject(NinjasApiService);
   readonly #dialogService = inject(DialogService);
+  readonly #destroyRef = inject(DestroyRef);
 
   password = signal('*cFsQvKE0bUP!PF8');
 
@@ -36,7 +37,7 @@ export class PasswordGeneratorStore {
       .getRandomPassword$(this.#passwordOptions)
       .pipe(
         finalize(() => this.isLoading.set(false)),
-        takeUntilDestroyed()
+        takeUntilDestroyed(this.#destroyRef)
       )
       .subscribe({
         next: (randomPassword) => {
