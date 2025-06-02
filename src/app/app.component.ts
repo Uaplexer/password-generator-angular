@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { PasswordGeneratorComponent } from '@features/password-generator/password-generator.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  imports: [PasswordGeneratorComponent],
 })
-export class AppComponent {
-  title = 'password-generator';
-}
+export class AppComponent {}
