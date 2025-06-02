@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from '@environment/environment.sample';
 import {
@@ -24,23 +24,17 @@ export class NinjasApiService {
       })
       .pipe(
         map((response: RandomPasswordResponse) => response.random_password),
-        catchError(this.handleError)
+        catchError(this.#handleError)
       );
   }
 
-  private handleError(error: {
-    error?: { message?: string };
-    message?: string;
-  }): Observable<never> {
-    const message: string =
-      error?.error?.message || error?.message || 'Unknown error';
-
-    if (message.includes('premium')) {
+  #handleError(error: HttpErrorResponse): Observable<never> {
+    const errorMessage = error?.error?.error;
+    if (errorMessage?.includes('premium')) {
       return throwError(() => new PremiumFeatureError());
     }
-
     console.error('API error:', error);
 
-    return throwError(() => new GenericApiError(message));
+    return throwError(() => new GenericApiError(errorMessage));
   }
 }
